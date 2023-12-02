@@ -1,0 +1,14 @@
+-- In Haskell i caratteri si trovano tra apici singoli e sono di tipo char (incompatibile con i numerici).
+-- Il confronto tra i caratteri avviene tramite ==. 
+-- Valgono tutte le convenzioni Unicode e ASCII. Inoltre sono presenti caratteri speciali come:
+-- '\n' per andare a capo;
+-- '\t' per tabulare;
+-- '\r' per ritornare a capo;
+-- '\\' per inserire un backslash;
+-- '\'' per inserire un apice singolo;
+-- '\"' per inserire un apice doppio.
+-- La lettera lambda è scritta come '\x03BB' (Unicode).
+
+-- Le funzioni di conversione tra caratteri e numeri sono definite in Data.Char.
+-- ord :: Char -> Int
+-- chr :: Int -> Char

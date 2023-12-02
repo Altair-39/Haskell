@@ -1,0 +1,3 @@
+-- In Haskell non si possono manipolare indirizzi di memoria, quindi non si può
+-- modificare una lista. Per questo motivo, per realizzare algoritmi di ordinamento,
+-- si deve creare una nuova lista in cui gli elementi siano stati ordinati.

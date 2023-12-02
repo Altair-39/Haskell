@@ -1,0 +1,3 @@
+-- Le guardie possono essere usate per filtrare i valori generati dai generatori.
+-- Per esempio [ (x, y) | x <- [1..10], y <- [1..10], x <= y ] è la lista di tutte le
+-- coppie di numeri da 1 a 10 con il primo elemento minore o uguale al secondo.

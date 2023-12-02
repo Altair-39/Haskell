@@ -1,0 +1,11 @@
+-- Si può generare una lista a partire da un'altra lista, usando un generatore.
+-- Un generatore è un'espressione del tipo x <- xs, dove xs è una lista.
+-- Un generatore può essere seguito da altri generatori o da un predicato.
+-- Per esempio [ x ^ 2 | x <- [1..10] ] è la lista dei quadrati dei numeri da 1 a 10,
+-- che è equivalente a map (^ 2) [1..10].
+-- Si può usare un qualunque numero di generatori, per esempio
+-- [ (x, y) | x <- [1..10], y <- [1..10] ] è la lista di tutte le coppie di numeri
+-- da 1 a 10.
+-- Inoltre un generatore può fare riferimento ai valori dei generatori precedenti,
+-- per esempio [ (x, y) | y <- [1..10], x <- [1..y] ] è la lista di tutte le coppie
+-- di numeri da 1 a 10 con il primo elemento minore o uguale al secondo.

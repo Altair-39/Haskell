@@ -1,0 +1,2 @@
+-- In Haskell le stringhe sono liste di caratteri (String è un'alias per [char]) delimitate da doppi apici.
+-- Tutte le funzioni applicabili alle liste sono applicabili alle stringhe (lenght, ++, etc.).
