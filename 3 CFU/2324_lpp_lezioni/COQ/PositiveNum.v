@@ -7,7 +7,7 @@ Inductive Positive: Set :=
     | XH : Positive .
 
 (** **** Principio di induzione per [Positive]*)
-Check Positive_ind.
+(* Check Positive_ind. *)
 (** : forall P : Positive -> Prop,
        (forall p : Positive, P p -> P (XI p)) ->
        (forall p : Positive, P p -> P (XO p)) ->
@@ -15,7 +15,7 @@ Check Positive_ind.
 
 C'è anche quello per i naturali:
 *)
-Check nat_ind.
+(* Check nat_ind. *)
 (** : forall P : nat -> Prop,
        P 0 -> (forall n : nat, P n -> P (S n)) 
               -> forall n : nat, P n *)
@@ -118,61 +118,5 @@ match p, p' with
                 | IsPos s => IsPos (XO s)
                 end
 end.
-
-(** * Proprietà delle operazioni aritmetiche su [Positive].
-Sorgente:
-https://github.com/coq/coq/blob/master/theories/PArith/BinPos.v .
-*)
-
-
-(** ** Proprietà di [succ] e [pred] *)
-
-(** *** [XI] caratterizzato da [succ] e [XO] *)
-(** Assunzione n.ro 3 nell'elenco delle assunzioni 
-usate per progettare (almeno) le funzioni [succ] 
-e [pred] *)
-Lemma xI_succ_xO p : XI p = succ (XO p).
-Proof. destruct p.
-- simpl. reflexivity. 
-- simpl. reflexivity. 
-- simpl. reflexivity.
-Qed.  
-
-Lemma succ_discr p : p <> succ p.
-Proof. unfold not. destruct p. 
-- intros. discriminate H.
-- intros. discriminate H.
-- intros. discriminate H.
-Qed.  
-
-(** Assunzione n.ro 4 nell'elenco delle assunzioni 
-usate per progettare (almeno) le funzioni [succ] 
-e [pred] *)
-Lemma pred_XOsucc: forall (p: Positive),
-  XI p = pred (XO (succ p)).
-Proof. induction p as [ p' HI | p'' HO | ].
-3: { simpl. reflexivity. }
-- unfold succ. rewrite HI. fold succ. 
-  simpl. reflexivity.
-- simpl. reflexivity. 
-Qed.
-
-(** *** [succ] e "il predecessore del doppio" *)
-
-Fixpoint pred_double x :=
-  match x with
-  (* 2(2p+1)-1 == 4p+1 == succ(XO(XO p)) == XI(XO p) *)
-    | XI p => XI (XO p)
-    | XO p => XI (pred_double p)
-    | XH => XH
-  end.
-
-Lemma pred_double_spec p : 
-  pred_double p = pred (XO p).
-Proof. induction p.
-3:{ simpl. reflexivity. }
-- simpl. reflexivity.
-- simpl. rewrite IHp. simpl. reflexivity.
-Qed.
 
 End PositiveNum.

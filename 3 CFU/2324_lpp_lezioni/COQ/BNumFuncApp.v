@@ -1,9 +1,7 @@
 From LPP Require Import PositiveNum.
-Module PN := PositiveNum.
 From LPP Require Import PositiveNumOrder.
-Module PNO := PositiveNumOrder.
 From LPP Require Import PositiveNumVsInteger.
-Module PNI := PositiveNumVsInteger.
+
 
 Notation "f ; g" :=
   (fun x =>  g (f x))
@@ -42,13 +40,13 @@ match x, y with
 end .
 
 (** * Binary Numbers [BN] as instance of [BinNotation] *)
-Definition BN := BinNotation PN.Positive .
+Definition BN := BinNotation PositiveNum.Positive .
 
 (** *** Operations to let [BN] a numerical system *)
 Definition succ (x: BN) : BN :=
 match x with
-| N0 _ => Npos _ PN.XH
-| x    => fmap PN.succ x
+| N0 _ => Npos _ PositiveNum.XH
+| x    => fmap PositiveNum.succ x
 end .
     
 Definition pred (x: BN) : BN :=
@@ -57,26 +55,27 @@ match x with
 | Npos _ XH => N0 _
 end .
 
+(* exists, discriminate *)
 Proposition BinNotation_Positive_not_Functor:
   exists (b: BN), b <> (pred ; succ) b.  
 Proof. intros. exists (N0 _). 
-unfold succ. unfold pred. 
+unfold succ. unfold pred. unfold not. 
 intro F. discriminate F. 
 Qed.
 
-Definition add (x: BN) (y: BN) : BN := starApp (fmap PN.add x) y .
+Definition add (x: BN) (y: BN) : BN := starApp (fmap PositiveNum.add x) y .
 
 Definition sub (b b': BN) : BN :=
 match b, b' with
 | N0   _  , _         => N0 _
 | b       , N0   _    => b
-| Npos _ b, Npos _ b' => match PN.sub b b' with
-                         | PN.IsPos v => Npos _ v
+| Npos _ b, Npos _ b' => match PositiveNum.sub b b' with
+                         | PositiveNum.IsPos v => Npos _ v
                          | _          => N0 _
                          end
 end .
 
-Definition mul (x: BN) : BN -> BN := starApp (fmap PN.mul x) .
+Definition mul (x: BN) : BN -> BN := starApp (fmap PositiveNum.mul x) .
 
 Definition negate (x: BN) : BN := x .
 
@@ -85,20 +84,20 @@ Definition abs (x: BN) : BN := x .
 Definition signum (b: BN) : BN :=
 match b with 
 | N0 _ => N0 _
-|  _   => Npos _ PN.XH
+|  _   => Npos _ PositiveNum.XH
 end .
 
 Definition fromInteger (n: nat) : BN :=
 match n with
 | O   => N0   _
-| S n => Npos _ (PNI.nat2Pos n)
+| S _ => Npos _ (PositiveNumVsInteger.nat2Pos n)
 end . 
 
 (* instance Eq BN *)
 Definition eqBN (b b': BN) : bool :=
 match b, b' with
 |  N0 _    , N0 _      => true
-|  Npos _ b, Npos _ b' => PN.eqPositive b b'
+|  Npos _ b, Npos _ b' => PositiveNum.eqPositive b b'
 |  _       , _         => false
 end .
 
@@ -108,7 +107,7 @@ Definition neqBN (x y: BN) : bool := negb (eqBN x y) .
 Definition leBN (b b': BN) : bool :=
 match b, b' with
 | N0   _   , Npos _ _  => true
-| Npos _ p , Npos _ p' => PNO.lePositive p p'
+| Npos _ p , Npos _ p' => PositiveNumOrder.lePositive p p'
 |  _       ,  _        => false
 end .
 

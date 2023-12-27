@@ -6,8 +6,8 @@ import BNumFuncAppVsInteger ( bN2Int )
 import HelperTest ( terneFXY, errListFXY )
 
 data Term where
-    Tcon :: BN   -> Term
-    Tdiv :: Term -> Term -> Term
+    Tcon :: BN   -> Term -- numero binario
+    Tdiv :: Term -> Term -> Term -- divisioni tra due termini
     deriving (Show)
 
 -- Interprete ovvio basato sulla funzione

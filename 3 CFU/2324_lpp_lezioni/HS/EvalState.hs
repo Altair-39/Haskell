@@ -10,15 +10,12 @@ type State = Int
 -- L'operatore '->' è il costruttore
 type S a = State -> (a, State)
 
-
 ev :: Term -> S BN
-ev (Tcon n)     = \s -> (n, s + 1)
-ev (Tdiv t1 t2) = \s -> let (n1, s1) = ev t1 s
-                            (n2, s2) = ev t2 s
-                        in (B.div n1 n2, s2 + 1)
-ev (Tsum t1 t2) = \s -> let (n1, s1) = ev t1 s
-                            (n2, s2) = ev t2 s
-                        in (B.sum n1 n2, s2 + 1)
+ev (Tcon n) = \s -> (n, s + 1)
+ev (Tdiv t t') =
+   \s -> let (n , sN ) = ev t  s
+             (n', sN') = ev t' s 
+         in  (B.div n n', sN + sN')
 
 -- TEST
 ok , nok :: Term

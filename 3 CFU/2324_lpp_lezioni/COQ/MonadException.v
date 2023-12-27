@@ -1,4 +1,4 @@
-Require Import String. 
+From Coq Require Import String. 
 Require Import Ascii. 
 Require Import List.  
 Import Notations ListNotations.
@@ -16,7 +16,9 @@ nuovo insieme in cui gli elementi hanno forma [Rise "qualche msg"]
 o, per un qualsiasi elemento [x:a] fissato, [Return x] *)
 
 Definition Exception := string.
-Inductive E ...
+Inductive E (a: Set) : Set :=
+| Rise : Exception -> E a 
+| Return : a -> E a .
 
     
 (** * E è un funtore *)
@@ -25,15 +27,29 @@ Inductive E ...
     - [fmap] che, ad ogni morfismo [f: a -> b], associa un 
     morfismo di tipo [E a -> E b].
 *)
-Definition id ...
-      
-Definition fmap ...
-  
-(** [id] e [fmap: E a -> E b] soddisfano le due proprietà 
-funtoriali: *)
-Lemma idIsIdentity: ... 
+Definition id {a: Set} (x: E a) : E a := x.
 
-Lemma fmapComposes: ...
+Definition fmap {a b: Set} (f: a -> b) (x: E a) : E b := 
+  match x with 
+  | Rise _ e   => Rise _ e
+  | Return _ e => Return _ (f e)
+  end .    
+
+  (** [id] e [fmap: E a -> E b] soddisfano le due proprietà 
+funtoriali: *)
+Lemma idIsIdentity: forall (a: Set) (x: E a), 
+  x = id x.
+Proof. intros A X. 
+unfold id. reflexivity. 
+Qed.
+
+Lemma fmapComposes: forall (a b c: Set) (f: a -> b) (g: b -> c) (x: E a),
+   ((fmap f) ; (fmap g)) x = fmap (f ; g) x.
+Proof. intros; destruct x as [ nOk | ok ]; reflexivity.
+Qed.
+
+Print fmapComposes.
+
 
 (** * E è anche un funtore "Applicative" *)
 (** Significa che [E] ammette le funzioni [pure] e [<*>] 
@@ -42,7 +58,7 @@ struttura "Applicative". *)
 
 (** **** Funzione [pure] *)
 (** Incapsula un qualsiasi valore in [E]: *)
-Definition pure ...
+Definition pure {a: Set} (x:a) : E a :=
 
 (** **** Funzione [<*>] *)
 (** Applica (da qui il nome "Applicative"?) una funzione 

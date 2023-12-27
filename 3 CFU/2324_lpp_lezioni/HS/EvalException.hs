@@ -14,14 +14,15 @@ data E a where
     Return :: a -> E a
     deriving (Show)
 
-ev :: Term -> E BN
+ev :: Term -> E BN -- Rise "" | Return N0 | Return (Npos (XO XH))
 ev (Tcon n) = Return n 
 ev (Tdiv t1 t2) =
-    let ev1 = ev t1 in
-    let ev2 = ev t2 in 
+    let ev1 = ev t1
+        ev2 = ev t2 
+    in 
     case (ev1, ev2) of 
-    (Rise    s, _        ) -> Rise s
-    (_        , Rise s   ) -> Rise s
+    (Rise    s, _        ) -> ev1
+    (_        , Rise s   ) -> ev2
     (Return v1, Return N0) -> Rise "Div by 0"
     (Return v1, Return v2) -> Return (B.div v1 v2)
 
