@@ -66,13 +66,19 @@ Definition P_pos2Nat_nat2Pos (p: PositiveNum.Positive)  :=
 (** Semplice: unfold *)
 Lemma pos2Nat_nat2Pos_XH:
   P_pos2Nat_nat2Pos PositiveNum.XH.
-Admitted.
+Proof.
+  unfold P_pos2Nat_nat2Pos. unfold pos2Nat. fold pos2Nat. 
+  unfold PositiveNum.succ. unfold pos2Nat. simpl. reflexivity.
+Qed.
 
 (** Ancora più semplice *)
 Lemma pos2Nat_nat2Pos_XO: forall (p: PositiveNum.Positive),
   P_pos2Nat_nat2Pos p
     -> P_pos2Nat_nat2Pos (PositiveNum.XO p).
-Admitted.
+Proof. 
+  unfold P_pos2Nat_nat2Pos. unfold PositiveNum.succ. fold PositiveNum.succ.
+  unfold pos2Nat. fold pos2Nat. intros. simpl. reflexivity.
+Qed.
 
 (** Utile per:
     - unfold/fold su succ, pos2Nat 
@@ -100,7 +106,6 @@ apply (PositiveNum.Positive_ind P_pos2Nat_nat2Pos).
 - apply pos2Nat_nat2Pos_XO.
 - apply pos2Nat_nat2Pos_XH.
 Qed.
-Admitted.
 
 (** [pos2Nat_nat2Pos]: 2da versione di dimostrazione *) 
 (** [Postivie_ind] è visto come funzione. Lo si applca

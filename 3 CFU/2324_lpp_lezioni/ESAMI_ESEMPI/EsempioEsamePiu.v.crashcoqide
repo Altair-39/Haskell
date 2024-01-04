@@ -16,27 +16,15 @@ end.
 Example pius :
 piu (Succ Zero) (Succ Zero) = Succ (Succ (Zero)).
 Proof.
-auto.
+simpl. reflexivity.
 Qed.
 
 (** Domanda 2 *)
 (** Definire un tipo induttivo adatto a caratterizzare
 la struttura degli elementi nel grafo di [piu] *)
-Inductive piu_graph : naturale -> naturale -> naturale -> Prop :=
-| Piugraph_Zero : forall y, piu_graph Zero y y
-| Piugraph_Succ : forall x y z,
-    piu_graph x y z ->
-    piu_graph (Succ x) y (Succ z).
-
+Inductive piu_rel ...
 
 (** Domanda 3 *)
 (** Dimostrare che la definizione di [piu] è corretta 
 rispetto alla definizione di [piu_graph] *)
-Proposition piu_corretto : forall (x y : naturale),
-    piu_graph x y (piu x y).
-Proof.
-   intros.
-   induction x as [ | x IH ].
-   - simpl. apply Piugraph_Zero.
-   - simpl. apply Piugraph_Succ. assumption.
-Qed.
+Proposition piu_corretto ...

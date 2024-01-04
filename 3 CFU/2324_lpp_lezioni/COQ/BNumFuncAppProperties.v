@@ -16,6 +16,27 @@ Proof. destruct p.
 - unfold fmap. reflexivity.
 Qed.
 
+(* Si può utilizzare simpl. per semplificare il goal. *)
+
+Proposition BinNotation_fmap_homomorphism_simpl: 
+  forall {a b c: Set} (f: a -> b) (g: b -> c) (p: BinNotation a),
+  ((fmap f) ; (fmap g)) p = fmap (f ; g) p.
+Proof. destruct p.
+- simpl. reflexivity.
+- simpl. reflexivity.
+Qed.
+
+(* Si può utilizzare auto. per risolvere automaticamente un 
+ passo banale. *)
+
+Proposition BinNotation_fmap_homomorphism_auto: 
+  forall {a b c: Set} (f: a -> b) (g: b -> c) (p: BinNotation a),
+  ((fmap f) ; (fmap g)) p = fmap (f ; g) p.
+Proof. destruct p.
+- auto.
+- auto.
+Qed.
+
 (** La dimostrazione è un lambda termine *)
 (* Print BinNotation_fmap_homomorphism.  *)
 (** restituisce:

@@ -7,14 +7,37 @@ Inductive naturale : Set :=
 
 (** Domanda 1 *)
 (** Definire una funzione [meno] *)
-Fixpoint meno ...
+Fixpoint meno (x y : naturale) : naturale :=
+match x , y with
+| Zero   , _    => Zero
+| x      , Zero => x
+| Succ x , Succ y    => meno x y
+end.
+
+Example menos :
+meno (Zero) (Succ Zero) = (Zero).
+Proof.
+auto.
+Qed.
 
 (** Domanda 2 *)
 (** Definire un tipo induttivo adatto a caratterizzare
 la struttura degli elementi nel grafo di [meno] *)
-Inductive meno_rel ...
+Inductive meno_graph : naturale -> naturale -> naturale -> Prop :=
+| Meno_Zero : forall n : naturale, meno_graph Zero n Zero
+| Meno_Succ : forall x y z : naturale,
+   meno_graph x y z 
+   -> meno_graph (Succ x) y z.
+
 
 (** Domanda 3 *)
 (** Dimostrare che la definizione di [meno] è corretta 
 rispetto alla definizione di [meno_graph] *)
-Proposition meno_corretto ...
+Proposition meno_corretto : forall (x y : naturale),
+    meno_graph x y (meno x y).
+Proof.
+  intros.
+  induction x as [ | x' IH].
+  - simpl. apply Meno_Zero.
+  - simpl.
+Qed.
