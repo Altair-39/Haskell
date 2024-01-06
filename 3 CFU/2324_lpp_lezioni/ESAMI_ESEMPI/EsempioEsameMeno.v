@@ -24,20 +24,24 @@ Qed.
 (** Definire un tipo induttivo adatto a caratterizzare
 la struttura degli elementi nel grafo di [meno] *)
 Inductive meno_graph : naturale -> naturale -> naturale -> Prop :=
-| Meno_Zero : forall n : naturale, meno_graph Zero n Zero
+| Meno_Zero : forall n : naturale, meno_graph Zero n    Zero
+| Meno_N    : forall n : naturale, meno_graph n    Zero n
 | Meno_Succ : forall x y z : naturale,
    meno_graph x y z 
-   -> meno_graph (Succ x) y z.
-
+   -> meno_graph (Succ x) (Succ y) z.
 
 (** Domanda 3 *)
 (** Dimostrare che la definizione di [meno] è corretta 
 rispetto alla definizione di [meno_graph] *)
-Proposition meno_corretto : forall (x y : naturale),
-    meno_graph x y (meno x y).
+Proposition meno_corretto : forall (p q : naturale),
+    meno_graph p q (meno p q).
 Proof.
-  intros.
-  induction x as [ | x' IH].
-  - simpl. apply Meno_Zero.
-  - simpl.
+  intros p. induction p as [ | p' IH].
+  - intros q. destruct q.
+    + apply Meno_Zero.
+    + simpl. apply Meno_Zero.
+  - intros q. simpl. destruct q.
+    + apply Meno_N.
+    + apply Meno_Succ. apply IH.
 Qed.
+
