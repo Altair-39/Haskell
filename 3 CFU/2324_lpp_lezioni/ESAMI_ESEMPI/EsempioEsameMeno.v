@@ -27,7 +27,7 @@ Inductive meno_graph : naturale -> naturale -> naturale -> Prop :=
 | Meno_Zero : forall n : naturale, meno_graph Zero n    Zero
 | Meno_N    : forall n : naturale, meno_graph n    Zero n
 | Meno_Succ : forall x y z : naturale,
-   meno_graph x y z 
+   meno_graph x y z  
    -> meno_graph (Succ x) (Succ y) z.
 
 (** Domanda 3 *)
@@ -37,11 +37,9 @@ Proposition meno_corretto : forall (p q : naturale),
     meno_graph p q (meno p q).
 Proof.
   intros p. induction p as [ | p' IH].
+  - apply Meno_Zero.
   - intros q. destruct q.
-    + apply Meno_Zero.
-    + simpl. apply Meno_Zero.
-  - intros q. simpl. destruct q.
-    + apply Meno_N.
-    + apply Meno_Succ. apply IH.
+    + simpl. apply Meno_N.
+    + simpl. apply Meno_Succ. apply IH.
 Qed.
 

@@ -25,6 +25,9 @@
 -- C. divSicura restituisce il messaggio "Div by zero" se il secondo argomento 
 -- è zero. 
 
+divSicura :: Float -> Float -> Either Float String
+divSicura _ 0 = Right "Div by 0"
+divSicura x y = Left (x / y)
 
 -- DOMANDA 2
 -- Scrivere una funzione reciprocaSicura con le seguenti caratteristiche
@@ -35,3 +38,7 @@
 -- 
 -- C. reciprocaSicura restituisce il messaggio "Div by zero" se l'argomento 
 -- è zero. 
+
+reciprocaSicura :: Float -> Either Float String
+reciprocaSicura 0 = Right "Div by 0"
+reciprocaSicura n = Left (1 / n)
